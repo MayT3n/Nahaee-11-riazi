@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>برنامه مطالعاتی امتحانات نهایی یازدهم ریاضی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg: #0c0d14;
+  --surface: #13151f;
+  --surface2: #1a1c28;
+  --border: #252836;
+  --blue: #38bdf8;
+  --purple: #a78bfa;
+  --pink: #f472b6;
+  --green: #34d399;
+  --yellow: #fbbf24;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --muted2: #94a3b8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazirmatn', Tahoma, 'Segoe UI', Arial, sans-serif; }
+body {
+  font-family: 'Vazirmatn', Tahoma, 'Segoe UI', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* ── NAV ── */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12,13,20,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.top-bar .logo { font-size: 20px; }
+.top-bar h1 { font-size: 14px; font-weight: 700; color: var(--text); flex: 1; }
+.top-bar .phase-tag {
+  font-size: 11px; font-weight: 600;
+  background: rgba(56,189,248,0.12);
+  color: var(--blue);
+  border: 1px solid rgba(56,189,248,0.25);
+  padding: 3px 10px; border-radius: 20px;
+}
+
+/* ── SECTIONS ── */
+.section { padding: 0 0 8px; }
+
+.section-header {
+  padding: 20px 16px 12px;
+  position: relative;
+}
+.section-label {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700; letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.section-title {
+  font-size: 20px; font-weight: 900;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  -webkit-background-clip: text; color: transparent;
+  line-height: 1.3;
+}
+.section-title.danger {
+  background: linear-gradient(135deg, var(--pink), #f97316);
+  -webkit-background-clip: text; color: transparent;
+}
+.section-desc {
+  font-size: 13px; color: var(--muted2); margin-top: 4px;
+}
+.exam-alert {
+  margin: 0 16px 4px;
+  background: rgba(244,114,182,0.08);
+  border: 1px solid rgba(244,114,182,0.25);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px; font-weight: 600;
+  color: var(--pink);
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.exam-alert.blue {
+  background: rgba(56,189,248,0.08);
+  border-color: rgba(56,189,248,0.25);
+  color: var(--blue);
+}
+
+/* ── COVER ── */
+.cover {
+  padding: 40px 20px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: var(--blue); border-radius: 50%;
+  filter: blur(80px); opacity: .08;
+}
+.cover::after {
+  content: '';
+  position: absolute; bottom: -40px; left: -40px;
+  width: 160px; height: 160px;
+  background: var(--purple); border-radius: 50%;
+  filter: blur(70px); opacity: .1;
+}
+.cover-emoji { font-size: 56px; margin-bottom: 16px; display: block; }
+.cover-title {
+  font-size: 26px; font-weight: 900; line-height: 1.3;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  -webkit-background-clip: text; color: transparent;
+}
+.cover-sub { font-size: 14px; color: var(--muted2); margin-top: 8px; }
+
+.stats-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin: 24px 16px 0;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px 12px;
+  text-align: center;
+}
+.stat-card.wide { grid-column: span 2; display: flex; justify-content: space-around; align-items: center; }
+.stat-num { font-size: 30px; font-weight: 900; color: var(--blue); }
+.stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.stat-val { font-size: 16px; font-weight: 700; }
+
+.strategy-box {
+  margin: 16px 16px 0;
+  background: rgba(56,189,248,0.05);
+  border: 1px dashed rgba(56,189,248,0.2);
+  border-radius: 12px; padding: 14px 16px;
+}
+.strategy-box h3 { font-size: 13px; color: var(--blue); margin-bottom: 8px; }
+.strategy-box p { font-size: 12px; color: var(--muted2); margin-bottom: 3px; }
+.strategy-box .quote { color: var(--yellow); font-size: 12px; margin-top: 8px; font-style: italic; }
+
+/* ── TIME SLOT CARDS ── */
+.slots { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
+
+.slot {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+}
+.slot.break-slot {
+  background: rgba(251,191,36,0.04);
+  border-color: rgba(251,191,36,0.15);
+}
+.slot.exam-slot {
+  background: rgba(52,211,153,0.04);
+  border-color: rgba(52,211,153,0.25);
+}
+.slot.night-slot {
+  background: rgba(244,114,182,0.04);
+  border-color: rgba(244,114,182,0.2);
+}
+
+.slot-time {
+  min-width: 68px; max-width: 68px;
+  padding: 12px 8px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.02);
+  border-left: 1px solid var(--border);
+  gap: 2px;
+}
+.slot-time span {
+  font-size: 11px; font-weight: 700; color: var(--blue);
+  font-family: sans-serif; direction: ltr; line-height: 1.3; text-align: center;
+}
+.slot-time .slot-badge { margin-top: 4px; }
+
+.slot-body { padding: 10px 12px; flex: 1; min-width: 0; }
+.slot-subject { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.slot-subject.exam { color: var(--green); }
+.slot-desc { font-size: 12px; color: var(--muted2); line-height: 1.5; }
+.slot-desc b { color: var(--text); font-weight: 600; }
+
+/* ── DAY HEADER ── */
+.day-card {
+  margin: 0 16px 8px;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+.day-card.exam-day {
+  background: rgba(52,211,153,0.05);
+  border-color: rgba(52,211,153,0.3);
+}
+.day-card.night-day {
+  background: rgba(244,114,182,0.05);
+  border-color: rgba(244,114,182,0.2);
+}
+.day-name { font-size: 14px; font-weight: 800; flex: 1; }
+.day-tag {
+  font-size: 10px; font-weight: 700;
+  padding: 3px 8px; border-radius: 6px;
+}
+.day-tag.green { background: rgba(52,211,153,0.15); color: var(--green); }
+.day-tag.pink { background: rgba(244,114,182,0.15); color: var(--pink); }
+.day-tag.blue { background: rgba(56,189,248,0.15); color: var(--blue); }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px; border-radius: 5px;
+  font-size: 10px; font-weight: 700;
+}
+.b-study { background: rgba(56,189,248,0.12); color: var(--blue); }
+.b-test { background: rgba(167,139,250,0.12); color: var(--purple); }
+.b-break { background: rgba(251,191,36,0.12); color: var(--yellow); }
+.b-exam { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+.b-review { background: rgba(244,114,182,0.12); color: var(--pink); }
+
+/* ── CHECKLIST ── */
+.checklist {
+  margin: 12px 16px 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 16px;
+}
+.checklist-title { font-size: 13px; color: var(--green); font-weight: 700; margin-bottom: 10px; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 12px; color: var(--muted2);
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.check-item:last-child { border-bottom: none; }
+.check-box {
+  width: 18px; height: 18px; min-width: 18px;
+  border: 2px solid var(--border);
+  border-radius: 4px; margin-top: 1px;
+}
+
+/* ── NOTE BOX ── */
+.note-box {
+  margin: 8px 16px 0;
+  padding: 12px 14px;
+  background: var(--surface);
+  border-right: 3px solid var(--blue);
+  border-radius: 0 10px 10px 0;
+  font-size: 13px; color: var(--muted2);
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 16px 0;
+}
+
+/* ── FINAL BOX ── */
+.final-box {
+  margin: 16px 16px 0;
+  padding: 24px 20px;
+  background: rgba(52,211,153,0.05);
+  border: 2px solid rgba(52,211,153,0.3);
+  border-radius: 16px; text-align: center;
+}
+.final-box h2 { font-size: 22px; color: var(--green); margin-bottom: 6px; }
+.final-box h3 { font-size: 15px; color: var(--text); margin-bottom: 10px; }
+.final-box p { font-size: 13px; color: var(--muted2); }
+.final-emojis { font-size: 32px; margin: 16px 0; letter-spacing: 4px; }
+.final-box .congrats { font-size: 14px; font-weight: 700; color: var(--blue); margin-top: 8px; }
+
+/* ── FOOTER QUOTE ── */
+.section-footer {
+  padding: 12px 16px 4px;
+  text-align: center;
+  font-size: 11px; color: var(--muted);
+  border-top: 1px solid var(--border);
+  margin-top: 16px; font-style: italic;
+  color: var(--purple);
+}
+
+/* ── SPACING ── */
+.mt8 { margin-top: 8px; }
+.mt16 { margin-top: 16px; }
+.pb24 { padding-bottom: 24px; }
+
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <span class="logo">🚀</span>
+  <h1>برنامه نهایی یازدهم ریاضی</h1>
+  <span class="phase-tag">تیرماه ۱۴۰۵</span>
+</div>
+
+<!-- ══════════════ صفحه جلد ══════════════ -->
+<div class="cover">
+  <span class="cover-emoji">🚀</span>
+  <h1 class="cover-title">پروژه موفقیت<br>امتحانات نهایی یازدهم</h1>
+  <p class="cover-sub">رشته ریاضی و فیزیک · تیرماه ۱۴۰۵</p>
+</div>
+
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-num">۳۲</div>
+    <div class="stat-lbl">روز تلاش مستمر</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">۶</div>
+    <div class="stat-lbl">امتحان سرنوشت‌ساز</div>
+  </div>
+  <div class="stat-card wide">
+    <div>
+      <div class="stat-lbl">شروع برنامه</div>
+      <div class="stat-val" style="color:var(--purple)">۲۵ خرداد</div>
+    </div>
+    <div style="font-size:20px; color:var(--muted)">←</div>
+    <div>
+      <div class="stat-lbl">پایان برنامه</div>
+      <div class="stat-val" style="color:var(--green)">۲۷ تیر</div>
+    </div>
+  </div>
+</div>
+
+<div class="strategy-box mt16">
+  <h3>🕒 استراتژی زمان‌بندی (واقع‌گرایانه)</h3>
+  <p>بازه بیداری: ۱۰ صبح تا ۱۱ شب (۱۳ ساعت)</p>
+  <p>مطالعه خالص: ۸.۵ ساعت در روز | استراحت و تغذیه: ۴.۵ ساعت</p>
+  <p class="quote">«پیوستگی از شدت مهم‌تر است. خسته نشو، متوقف نشو!»</p>
+</div>
+
+<div class="divider mt16"></div>
+
+<!-- ══════════════ فاز ۱ ══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-label">📅 فاز ۱ · ۲۵ خرداد تا ۵ تیر</div>
+    <h2 class="section-title">روتین روزانه مطالعاتی</h2>
+    <p class="section-desc">۱۱ روز فرصت طلایی — هدف: اتمام دور اول مطالعه تمام دروس</p>
+  </div>
+
+  <div class="slots">
+    <div class="slot">
+      <div class="slot-time">
+        <span>10:00<br>—<br>12:00</span>
+        <span class="slot-badge badge b-study">مطالعه</span>
+      </div>
+      <div class="slot-body">
+        <div class="slot-subject">تخصصی ۱ (فیزیک/هندسه)</div>
+        <div class="slot-desc">مطالعه دقیق کتاب درسی + بررسی مثال‌های حل شده</div>
+      </div>
+    </div>
+
+    <div class="slot break-slot">
+      <div class="slot-time">
+        <span>12:00<br>—<br>13:00</span>
+        <span class="slot-badge badge b-break">استراحت</span>
+      </div>
+      <div class="slot-body">
+        <div class="slot-subject">🍽️ ناهار و ریکاوری</div>
+        <div class="slot-desc">مغز نیاز به استراحت دارد</div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <div class="slot-time">
+        <span>13:00<br>—<br>15:00</span>
+        <span class="slot-badge badge b-study">مطالعه</span>
+      </div>
+      <div class="slot-body">
+        <div class="slot-subject">عمومی ۱ (دین/فارسی)</div>
+        <div class="slot-desc">مطالعه متن، حفظ آیات و ابیات، خلاصه‌نویسی</div>
+      </div>
+    </div>
+
+    <div class="slot break-slot">
+      <div class="slot-time">
+        <span>15:00<br>—<br>16:00</span>
+        <span class="slot-badge badge b-break">استراحت</span>
+      </div>
+      <div class="slot-body">
+        <div class="slot-subject">☕ چای، نماز و استراحت</div>
+        <div class="slot-desc">استراحت کوتاه برای شارژ دوباره</div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <div class="slot-time">
+        <span>16:00<br>—<br>18:00</span>
+        <span class="slot-badge badge b-test">تست</span>
+      </div>
+      <div class="slot-body">
+        <div class="slot-subject">تخصصی ۱ (ادامه)</div>
+        <div class="slot-desc">حل تمرینات پایان فصل + تست‌های آموزشی</div>
+      </div>
+    </div>
+
+    <div class="slot break-slot">
+      <div class="slot-time">
+        <span>18:00<br>—<br>19:00</span>
+        <span class="slot-badge badge b-break">استراحت</span>
+      </div>
+      <div class="slot-body">
+        <div class="slot-subject">🚶 استراحت عصرگاهی</div>
+        <div class="slot-desc">ورزش سبک یا پیاده‌روی</div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <div class="slot-time">
+        <span>19:00<br>—<br>21:00</span>
+        <span class="slot-badge badge b-study">مطالعه</span>
+      </div>
+      <div class="slot-body">
+        <div class="slot-subject">عمومی ۲ (عربی/زبان)</div>
+        <div class="slot-desc">لغات، گرامر، قواعد و درک مطلب</div>
+      </div>
+    </div>
+
+    <div class="slot break-slot">
+      <div class="slot-time">
+        <span>21:00<br>—<br>22:00</span>
+        <span class="slot-badge badge b-break">استراحت</span>
+      </div>
+      <div class="slot-body">
+        <div class="slot-subject">🍽️ شام و استراحت</div>
+      </div>
+    </div>
+
+    <div class="slot night-slot">
+      <div class="slot-time">
+        <span>22:00<br>—<br>23:00</span>
+        <span class="slot-badge badge b-review">مرور</span>
+      </div>
+      <div class="slot-body">
+        <div class="slot-subject" style="color:var(--purple)">مرور و جمع‌بندی</div>
+        <div class="slot-desc">مرور یادداشت‌های امروز + تست‌های غلط زده شده</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="checklist mt16">
+    <div class="checklist-title">✅ رهگیری روزانه فاز ۱</div>
+    <div class="check-item"><div class="check-box"></div>۲۵ خرداد (فیزیک / دین)</div>
+    <div class="check-item"><div class="check-box"></div>۲۶ خرداد (هندسه / فارسی)</div>
+    <div class="check-item"><div class="check-box"></div>۲۷ خرداد (فیزیک / عربی)</div>
+    <div class="check-item"><div class="check-box"></div>۲۸ خرداد (هندسه / زبان)</div>
+    <div class="check-item"><div class="check-box"></div>۲۹ خرداد (فیزیک / دین)</div>
+    <div class="check-item"><div class="check-box"></div>۳۰ خرداد (هندسه / فارسی)</div>
+    <div class="check-item"><div class="check-box"></div>۳۱ خرداد (فیزیک / عربی)</div>
+    <div class="check-item"><div class="check-box"></div>۱ تیر (هندسه / زبان)</div>
+    <div class="check-item"><div class="check-box"></div>۲ تیر (فیزیک / مرور)</div>
+    <div class="check-item"><div class="check-box"></div>۳ تیر (هندسه / مرور)</div>
+    <div class="check-item"><div class="check-box"></div>۴ تیر (دین و زندگی)</div>
+    <div class="check-item"><div class="check-box"></div>۵ تیر (دین و زندگی)</div>
+  </div>
+
+  <div class="section-footer">«قدم‌های کوچک روزانه، دستاوردهای بزرگ فردا را می‌سازند.»</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════ فاز ۲ ══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-label">📅 فاز ۲ · ۶ تا ۱۲ تیر</div>
+    <h2 class="section-title">تمرکز روی دروس اول</h2>
+    <p class="section-desc">شمارش معکوس برای اولین امتحان — شیفت به حل نمونه سوال نهایی</p>
+  </div>
+
+  <div class="exam-alert">
+    <span>⚠️</span>
+    <span>هدف: آمادگی ۱۰۰٪ برای امتحان ۱۳ تیر (دین) و ۱۵ تیر (فارسی)</span>
+  </div>
+
+  <!-- روزها -->
+  <div class="mt8">
+    <div class="day-card mt8">
+      <div class="day-name">۶ تیر</div>
+    </div>
+    <div class="slots" style="margin-top:6px">
+      <div class="slot"><div class="slot-time"><span>صبح</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">دین و زندگی (درس ۱–۴)</div></div></div>
+      <div class="slot"><div class="slot-time"><span>عصر</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فارسی (درس ۱–۶ + قرابت)</div></div></div>
+      <div class="slot"><div class="slot-time"><span>شب</span><span class="badge b-test">تست</span></div><div class="slot-body"><div class="slot-subject">فیزیک</div><div class="slot-desc">تست‌زنی برای فراموش نکردن</div></div></div>
+    </div>
+
+    <div class="day-card mt8">
+      <div class="day-name">۷ تیر</div>
+    </div>
+    <div class="slots" style="margin-top:6px">
+      <div class="slot"><div class="slot-time"><span>صبح</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">دین و زندگی (درس ۵–۸)</div></div></div>
+      <div class="slot"><div class="slot-time"><span>عصر</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فارسی (درس ۷–۱۲ + دستور)</div></div></div>
+      <div class="slot"><div class="slot-time"><span>شب</span><span class="badge b-review">مرور</span></div><div class="slot-body"><div class="slot-subject">هندسه</div><div class="slot-desc">مرور قضایا</div></div></div>
+    </div>
+
+    <div class="day-card mt8">
+      <div class="day-name">۸ تیر</div>
+    </div>
+    <div class="slots" style="margin-top:6px">
+      <div class="slot"><div class="slot-time"><span>صبح</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">دین و زندگی (درس ۹–۱۲)</div></div></div>
+      <div class="slot"><div class="slot-time"><span>عصر</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فارسی (درس ۱۳–۱۸ + آرایه)</div></div></div>
+      <div class="slot"><div class="slot-time"><span>شب</span><span class="badge b-review">مرور</span></div><div class="slot-body"><div class="slot-subject">زبان و عربی</div><div class="slot-desc">مرور لغات</div></div></div>
+    </div>
+
+    <div class="day-card mt8">
+      <div class="day-name" style="color:var(--pink)">۹ تیر — روز آزمون</div>
+    </div>
+    <div class="slots" style="margin-top:6px">
+      <div class="slot night-slot"><div class="slot-time"><span>صبح</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">حل نمونه سوال دینی</div></div></div>
+      <div class="slot night-slot"><div class="slot-time"><span>عصر</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">حل نمونه سوال فارسی</div></div></div>
+      <div class="slot"><div class="slot-time"><span>شب</span><span class="badge b-review">تحلیل</span></div><div class="slot-body"><div class="slot-subject">تحلیل اشتباهات دو آزمون</div></div></div>
+    </div>
+
+    <div class="day-card mt8">
+      <div class="day-name">۱۰ تیر</div>
+    </div>
+    <div class="slots" style="margin-top:6px">
+      <div class="slot"><div class="slot-time"><span>صبح</span><span class="badge b-review">مرور</span></div><div class="slot-body"><div class="slot-subject">دین و زندگی</div><div class="slot-desc">مرور آیات</div></div></div>
+      <div class="slot"><div class="slot-time"><span>عصر</span><span class="badge b-review">مرور</span></div><div class="slot-body"><div class="slot-subject">دین و زندگی</div><div class="slot-desc">مرور احادیث</div></div></div>
+      <div class="slot"><div class="slot-time"><span>شب</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فارسی</div><div class="slot-desc">حفظیات و تاریخ ادبیات</div></div></div>
+    </div>
+
+    <div class="day-card mt8">
+      <div class="day-name" style="color:var(--pink)">۱۱ تیر — شبیه‌ساز</div>
+    </div>
+    <div class="slots" style="margin-top:6px">
+      <div class="slot night-slot"><div class="slot-time"><span>صبح</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">آزمون شبیه‌ساز دینی</div></div></div>
+      <div class="slot"><div class="slot-time"><span>عصر</span><span class="badge b-review">رفع اشکال</span></div><div class="slot-body"><div class="slot-subject">دین و زندگی — رفع اشکال</div></div></div>
+      <div class="slot"><div class="slot-time"><span>شب</span><span class="badge b-review">مرور</span></div><div class="slot-body"><div class="slot-subject">مرور نکات طلایی دین</div></div></div>
+    </div>
+
+    <div class="day-card night-day mt8">
+      <div class="day-name" style="color:var(--pink)">۱۲ تیر — شب امتحان 🌙</div>
+      <span class="day-tag pink">آرامش مطلق</span>
+    </div>
+    <div class="slots" style="margin-top:6px">
+      <div class="slot"><div class="slot-time"><span>صبح</span><span class="badge b-review">تورق</span></div><div class="slot-body"><div class="slot-subject">دین و زندگی — تورق سریع</div></div></div>
+      <div class="slot"><div class="slot-time"><span>عصر</span><span class="badge b-review">مرور</span></div><div class="slot-body"><div class="slot-subject">فقط مرور خلاصه‌ها</div></div></div>
+      <div class="slot exam-slot"><div class="slot-time"><span>شب</span><span class="badge b-exam">مهم!</span></div><div class="slot-body"><div class="slot-subject exam">استراحت مطلق و خواب زود 😴</div></div></div>
+    </div>
+  </div>
+
+  <div class="checklist mt16">
+    <div class="checklist-title">✅ کارهای الزامی این فاز</div>
+    <div class="check-item"><div class="check-box"></div>حل حداقل ۳ دوره نمونه سوال نهایی سال‌های قبل برای دین و زندگی</div>
+    <div class="check-item"><div class="check-box"></div>تسلط کامل بر تاریخ ادبیات و لغات فارسی (برای امتحان ۱۵ تیر)</div>
+  </div>
+
+  <div class="section-footer">«آرامش در شب امتحان، نیمی از موفقیت است.»</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════ امتحان ۱ و ۲ ══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-label">📅 ۱۳ تا ۱۵ تیر</div>
+    <h2 class="section-title">شروع طوفانی: دین و فارسی</h2>
+  </div>
+
+  <div class="exam-alert">
+    <span>🔥</span>
+    <span>۱۳ تیر: امتحان دین و زندگی | ۱۵ تیر: امتحان فارسی</span>
+  </div>
+
+  <!-- ۱۳ تیر -->
+  <div class="day-card exam-day mt8">
+    <div class="day-name" style="color:var(--green)">شنبه ۱۳ تیر — روز امتحان دینی 🏆</div>
+    <span class="day-tag green">امتحان</span>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot exam-slot"><div class="slot-time"><span>07:30</span><span class="badge b-exam">امتحان</span></div><div class="slot-body"><div class="slot-subject exam">🏆 امتحان دین و زندگی ۲</div></div></div>
+    <div class="slot break-slot"><div class="slot-time"><span>10:00<br>—<br>12:00</span><span class="badge b-break">استراحت</span></div><div class="slot-body"><div class="slot-subject">استراحت، خواب و ریکاوری ذهنی 😌</div></div></div>
+    <div class="slot"><div class="slot-time"><span>14:00<br>—<br>16:30</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فارسی: درس ۱ تا ۹</div></div></div>
+    <div class="slot"><div class="slot-time"><span>17:00<br>—<br>19:30</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فارسی: درس ۱۰ تا ۱۸</div></div></div>
+    <div class="slot night-slot"><div class="slot-time"><span>20:00<br>—<br>22:00</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">فارسی: حل یک دوره نمونه سوال نهایی</div></div></div>
+  </div>
+
+  <!-- ۱۴ تیر -->
+  <div class="day-card night-day mt8">
+    <div class="day-name" style="color:var(--pink)">یکشنبه ۱۴ تیر — شب امتحان فارسی 🌙</div>
+    <span class="day-tag pink">شب امتحان</span>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot night-slot"><div class="slot-time"><span>07:30<br>—<br>09:30</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">مرور نهایی فارسی (حفظیات و لغات)</div></div></div>
+    <div class="slot"><div class="slot-time"><span>10:00<br>—<br>12:00</span><span class="badge b-review">مرور</span></div><div class="slot-body"><div class="slot-subject">مرور دستور زبان و نقش‌های دستوری</div></div></div>
+    <div class="slot night-slot"><div class="slot-time"><span>14:00<br>—<br>16:30</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">حل نمونه سوال نهایی فارسی (شبیه‌ساز)</div></div></div>
+    <div class="slot"><div class="slot-time"><span>17:00<br>—<br>19:30</span><span class="badge b-review">تحلیل</span></div><div class="slot-body"><div class="slot-subject">تحلیل آزمون + مرور قرابت معنایی و آرایه‌ها</div></div></div>
+    <div class="slot exam-slot"><div class="slot-time"><span>20:00<br>—<br>22:00</span><span class="badge b-exam">مهم!</span></div><div class="slot-body"><div class="slot-subject exam">تورق سریع کتاب + خواب زود 😴</div></div></div>
+  </div>
+
+  <div class="day-card exam-day mt8">
+    <div class="day-name" style="color:var(--green)">دوشنبه ۱۵ تیر — امتحان فارسی ۲ 🏆</div>
+    <span class="day-tag green">امتحان ۷:۳۰</span>
+  </div>
+
+  <div class="note-box mt8">
+    <strong style="color:var(--blue)">بعد از امتحان فارسی (۱۵ تیر - عصر):</strong><br>
+    تا شب استراحت کن. ۵ روز تا امتحان هندسه (۲۰ تیر) فرصت داری. عصر فقط یک نگاه گذرا به کتاب هندسه بینداز.
+  </div>
+
+  <div class="section-footer">صفحه ۴ — امتحانات ۱ و ۲</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════ هندسه ══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-label">📅 ۱۶ تا ۲۰ تیر</div>
+    <h2 class="section-title">عملیات هندسه 📐</h2>
+    <p class="section-desc">۵ روز زمان عالی برای تسلط کامل</p>
+  </div>
+
+  <div class="exam-alert blue">
+    <span>📐</span>
+    <span>۲۰ تیر: امتحان هندسه ۲</span>
+  </div>
+
+  <!-- سه‌شنبه ۱۶ -->
+  <div class="day-card mt8">
+    <div class="day-name">سه‌شنبه ۱۶ تیر</div>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot"><div class="slot-time"><span>10:00<br>—<br>13:00</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فصل ۱ — دایره</div><div class="slot-desc">قضایا، وتر و مماس، زاویه‌ها</div></div></div>
+    <div class="slot"><div class="slot-time"><span>15:00<br>—<br>18:00</span><span class="badge b-test">تمرین</span></div><div class="slot-body"><div class="slot-subject">حل تمامی تمرینات کتاب</div><div class="slot-desc">فصل ۱ دایره</div></div></div>
+  </div>
+
+  <!-- چهارشنبه ۱۷ -->
+  <div class="day-card mt8">
+    <div class="day-name" style="color:var(--purple)">چهارشنبه ۱۷ تیر</div>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot"><div class="slot-time"><span>10:00<br>—<br>13:00</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فصل ۲ — تبدیلات هندسی</div><div class="slot-desc">انتقال، تقارن، دوران</div></div></div>
+    <div class="slot"><div class="slot-time"><span>15:00<br>—<br>18:00</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فصل ۳ — ماتریس</div><div class="slot-desc">تا سر اعمال روی ماتریس‌ها</div></div></div>
+  </div>
+
+  <!-- پنجشنبه ۱۸ -->
+  <div class="day-card mt8">
+    <div class="day-name">پنجشنبه ۱۸ تیر</div>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot"><div class="slot-time"><span>10:00<br>—<br>13:00</span><span class="badge b-test">تمرین</span></div><div class="slot-body"><div class="slot-subject">اتمام فصل ۳ (ماتریس)</div><div class="slot-desc">حل تمرینات</div></div></div>
+    <div class="slot night-slot"><div class="slot-time"><span>15:00<br>—<br>18:00</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">حل نمونه سوال نهایی سال گذشته (سری ۱)</div></div></div>
+  </div>
+
+  <!-- جمعه ۱۹ -->
+  <div class="day-card night-day mt8">
+    <div class="day-name" style="color:var(--pink)">جمعه ۱۹ تیر — شب امتحان 🌙</div>
+    <span class="day-tag pink">شب امتحان</span>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot night-slot"><div class="slot-time"><span>10:00<br>—<br>13:00</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">حل ۲ دوره نمونه سوال نهایی + تحلیل دقیق</div></div></div>
+    <div class="slot exam-slot"><div class="slot-time"><span>15:00<br>—<br>18:00</span><span class="badge b-review">مرور</span></div><div class="slot-body"><div class="slot-subject exam">مرور اثبات قضایای مهم + استراحت شبانه 😴</div></div></div>
+  </div>
+
+  <div class="day-card exam-day mt8">
+    <div class="day-name" style="color:var(--green)">شنبه ۲۰ تیر — امتحان هندسه ۲ 🏆</div>
+    <span class="day-tag green">امتحان ۷:۳۰</span>
+  </div>
+
+  <div class="section-footer">صفحه ۵ — عملیات هندسه</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════ عربی و زبان ══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-label">📅 ۲۱ تا ۲۴ تیر</div>
+    <h2 class="section-title">ایستگاه زبان‌ها 🌐</h2>
+    <p class="section-desc">عربی و انگلیسی</p>
+  </div>
+
+  <div class="exam-alert">
+    <span>📚</span>
+    <span>۲۲ تیر: امتحان عربی | ۲۴ تیر: امتحان زبان خارجی</span>
+  </div>
+
+  <div class="note-box mt8">
+    عصر ۲۰ تیر (بعد از هندسه): استراحت تا ساعت ۱۶، سپس شروع مرور لغات و قواعد پایه عربی.
+  </div>
+
+  <!-- یکشنبه ۲۱ -->
+  <div class="day-card night-day mt8">
+    <div class="day-name" style="color:var(--pink)">یکشنبه ۲۱ تیر — شب امتحان عربی 🌙</div>
+    <span class="day-tag pink">شب امتحان</span>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot"><div class="slot-time"><span>صبح</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">مرور کامل قواعد عربی</div><div class="slot-desc">معتلات، مفعول مطلق و... + حل تمرینات کتاب</div></div></div>
+    <div class="slot night-slot"><div class="slot-time"><span>شب</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">حل ۲ دوره آزمون نهایی عربی + مرور ترجمه‌ها + خواب زود</div></div></div>
+  </div>
+
+  <!-- دوشنبه ۲۲ -->
+  <div class="day-card exam-day mt8">
+    <div class="day-name" style="color:var(--green)">دوشنبه ۲۲ تیر — امتحان عربی ۲ 🏆</div>
+    <span class="day-tag green">امتحان</span>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot exam-slot"><div class="slot-time"><span>07:30</span><span class="badge b-exam">امتحان</span></div><div class="slot-body"><div class="slot-subject exam">🏆 امتحان عربی ۲ — سپس استراحت تا ظهر</div></div></div>
+    <div class="slot"><div class="slot-time"><span>عصر</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">شروع زبان انگلیسی</div><div class="slot-desc">مرور لغات تمام دروس + Reading</div></div></div>
+  </div>
+
+  <!-- سه‌شنبه ۲۳ -->
+  <div class="day-card night-day mt8">
+    <div class="day-name" style="color:var(--pink)">سه‌شنبه ۲۳ تیر — شب امتحان زبان 🌙</div>
+    <span class="day-tag pink">شب امتحان</span>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot"><div class="slot-time"><span>صبح</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">مرور گرامر تمام دروس</div><div class="slot-desc">شرطی‌ها، مجهول و... + حل تمرین</div></div></div>
+    <div class="slot night-slot"><div class="slot-time"><span>شب</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">حل ۲ دوره آزمون نهایی انگلیسی + مرور Writing + خواب</div></div></div>
+  </div>
+
+  <!-- چهارشنبه ۲۴ -->
+  <div class="day-card exam-day mt8">
+    <div class="day-name" style="color:var(--green)">چهارشنبه ۲۴ تیر — امتحان زبان ۲ 🏆</div>
+    <span class="day-tag green">امتحان</span>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot exam-slot"><div class="slot-time"><span>07:30</span><span class="badge b-exam">امتحان</span></div><div class="slot-body"><div class="slot-subject exam">🏆 امتحان زبان ۲ — سپس استراحت طولانی</div></div></div>
+    <div class="slot"><div class="slot-time"><span>از ۱۷:۰۰</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--blue)">ورود به فاز نهایی (فیزیک)</div><div class="slot-desc">مرور فرمول‌های فصل ۱</div></div></div>
+  </div>
+
+  <div class="checklist mt16">
+    <div class="checklist-title">💡 نکته مهم برای زبان‌ها</div>
+    <div class="check-item"><div class="check-box"></div>دقت به جزئیات ترجمه و املای صحیح کلمات نمره‌آور است</div>
+    <div class="check-item"><div class="check-box"></div>ساختار سوالات نهایی بسیار تکراری است — حتماً نمونه سال گذشته حل کن</div>
+  </div>
+
+  <div class="section-footer">صفحه ۶ — ایستگاه زبان‌ها</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════ فیزیک (غول آخر) ══════════════ -->
+<div class="section pb24">
+  <div class="section-header">
+    <div class="section-label" style="color:var(--pink)">📅 ۲۵ تا ۲۷ تیر · پایان مسیر</div>
+    <h2 class="section-title danger">نبرد نهایی: فیزیک ۲ ⚛️</h2>
+    <p class="section-desc">۲ روز کامل برای جمع‌بندی فیزیک</p>
+  </div>
+
+  <div class="exam-alert">
+    <span>⚛️</span>
+    <span>۲۷ تیر: آخرین امتحان! — ۲ روز کامل برای جمع‌بندی فیزیک</span>
+  </div>
+
+  <!-- پنجشنبه ۲۵ -->
+  <div class="day-card mt8">
+    <div class="day-name">پنجشنبه ۲۵ تیر — مرور سنگین</div>
+    <span class="day-tag blue">روز ۱</span>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot"><div class="slot-time"><span>10:00<br>—<br>12:30</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فصل ۱ — الکتریسیته ساکن</div><div class="slot-desc">مرور مفاهیم، میدان، پتانسیل و خازن + حل تمرین کتاب</div></div></div>
+    <div class="slot break-slot"><div class="slot-time"><span>12:30<br>—<br>14:00</span><span class="badge b-break">استراحت</span></div><div class="slot-body"><div class="slot-subject">🍽️ ناهار و شارژ انرژی</div></div></div>
+    <div class="slot"><div class="slot-time"><span>14:00<br>—<br>16:30</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فصل ۲ — جریان الکتریکی</div><div class="slot-desc">مقاومت‌ها، قانون اهم، توان، مدارها و مسائل ترکیبی</div></div></div>
+    <div class="slot"><div class="slot-time"><span>17:00<br>—<br>19:30</span><span class="badge b-test">تست</span></div><div class="slot-body"><div class="slot-subject">تست‌های پرتکرار نهایی</div><div class="slot-desc">فصل ۱ و ۲</div></div></div>
+    <div class="slot"><div class="slot-time"><span>20:00<br>—<br>22:00</span><span class="badge b-review">مرور</span></div><div class="slot-body"><div class="slot-subject">مرور سریع فرمول‌های خوانده شده</div></div></div>
+  </div>
+
+  <!-- جمعه ۲۶ -->
+  <div class="day-card night-day mt8">
+    <div class="day-name" style="color:var(--pink)">جمعه ۲۶ تیر — تست و جمع‌بندی</div>
+    <span class="day-tag pink">روز ۲</span>
+  </div>
+  <div class="slots" style="margin-top:6px">
+    <div class="slot"><div class="slot-time"><span>10:00<br>—<br>12:30</span><span class="badge b-study">مطالعه</span></div><div class="slot-body"><div class="slot-subject">فصل ۳ — مغناطیس</div><div class="slot-desc">قانون دست راست، میدان سیم و سیملوله، قانون فارادی</div></div></div>
+    <div class="slot break-slot"><div class="slot-time"><span>12:30<br>—<br>14:00</span><span class="badge b-break">استراحت</span></div><div class="slot-body"><div class="slot-subject">🍽️ ناهار و شارژ انرژی</div></div></div>
+    <div class="slot night-slot"><div class="slot-time"><span>14:00<br>—<br>16:30</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">حل اولین دوره آزمون نهایی فیزیک سال‌های قبل</div></div></div>
+    <div class="slot night-slot"><div class="slot-time"><span>17:00<br>—<br>19:30</span><span class="badge b-exam">آزمون</span></div><div class="slot-body"><div class="slot-subject" style="color:var(--pink)">حل دومین دوره آزمون نهایی + تحلیل دقیق پاسخ‌نامه</div></div></div>
+    <div class="slot exam-slot"><div class="slot-time"><span>20:00<br>—<br>22:00</span><span class="badge b-exam">مهم!</span></div><div class="slot-body"><div class="slot-subject exam">مرور برگه فرمول‌ها + حفظیات + خواب زود! 😴</div></div></div>
+  </div>
+
+  <!-- جشن پایان -->
+  <div class="final-box mt16">
+    <h2>🎉 شنبه ۲۷ تیر ۱۴۰۵</h2>
+    <h3>⏰ ساعت ۰۷:۳۰ صبح — امتحان فیزیک ۲</h3>
+    <p>با دادن این امتحان، پرونده امتحانات نهایی یازدهم بسته می‌شود!</p>
+    <div class="final-emojis">🏖️ 🎮 🍕 🥳</div>
+    <div class="congrats">تبریک! شما با موفقیت برنامه را تمام کردید.</div>
+    <p style="margin-top:6px">حالا وقت یک استراحت طولانی و لذت بردن از تابستان است.</p>
+  </div>
+
+  <div class="section-footer">«پایان یک تلاش سخت، آغاز یک موفقیت شیرین است.»</div>
+</div>
+
+</body>
+</html>
